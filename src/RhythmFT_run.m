@@ -29,12 +29,12 @@ checkDependencies();
 
 % bidsSTC(opt);
 
- bidsSpatialPrepro(opt);
+% bidsSpatialPrepro(opt);
 
 % The following do not run on octave for now (because of spmup)
-%  anatomicalQA(opt);
-%  bidsResliceTpmToFunc(opt);
-%  functionalQA(opt);
+ anatomicalQA(opt);
+ bidsResliceTpmToFunc(opt);
+ functionalQA(opt);
 
  bidsSmoothing(FWHM, opt);
 
