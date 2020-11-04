@@ -15,7 +15,7 @@ function opt = getOptionRhythmFT()
     opt.subjects = {'pil001'};
 
     % we stay in native space (that of the T1)
-    opt.space = 'MNI'; % individual %MNI
+    opt.space = 'individual'; % individual %MNI
 
     % The directory where the data are located
     opt.dataDir = fullfile(fileparts(mfilename('fullpath')), ...
