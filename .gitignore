@@ -6,3 +6,6 @@
 # exclude content of logfiles folders
 *.tsv
 *.mat
+
+options_task-*date*.json
+onsets*_events.mat	onsets*_events.mat
