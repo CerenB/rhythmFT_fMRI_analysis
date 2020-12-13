@@ -52,7 +52,7 @@ onsetDelay = 2;
 endDelay = 4;
 
 % use neighbouring 4 bins as noise frequencies
-cfg.BinSize = 4;
+cfg.binSize = 4;
 
 RunPattern = struct();
 nVox = sum(mask(:) == 1);
@@ -150,16 +150,19 @@ for iRun = 1:nRuns
     % frequencies
     f = samplingFreq / 2 * linspace(0, 1, N / 2 + 1);
     % target frequency
-    cfg.targetFreq = round(N * oddballFreq / samplingFreq + 1);
+    cfg.targetFrequency = round(N * oddballFreq / samplingFreq + 1);
     % number of bins for phase histogram
     cfg.histBin = 20;
     % threshold for choosing voxels for the phase distribution analysis
-    cfg.Thresh = 4;
+    cfg.thresh = 4;
 
-    [targetSNR, targetPhase, targetSNRsigned, tSNR] = calculateFourier( ...
-                                                                       patternDetrend, ...
-                                                                       patternResampled, ...
-                                                                       cfg);
+    [targetSNR, cfg] = calculateFourier(patternDetrend, patternResampled, cfg);
+
+    %     %unused parameters for now
+    %     targetPhase = cfg.targetPhase;
+    %     targetSNRsigned = cfg.targetSNRsigned;
+    %     tSNR = cfg.tSNR;
+    %     %
 
     allRunsRaw(:, :, iRun) = patternResampled;
     allRunsDT(:, :, iRun) = patternDetrend;
