@@ -1,7 +1,4 @@
-function [TargetSNR, TargetPhase, TargetSNRsigned, tSNR] = calculateFourier(X, Xraw, ...
-                                                                            TargetFrequency, ...
-                                                                            BinSize, Thresh, ...
-                                                                            histBin)
+function [TargetSNR, TargetPhase, TargetSNRsigned, tSNR] = calculateFourier(X, Xraw, cfg)
     % Fourier analysis of fMRI time series data, returns the SNR at a given
     %        frequency for each voxel
     %
@@ -41,6 +38,13 @@ function [TargetSNR, TargetPhase, TargetSNRsigned, tSNR] = calculateFourier(X, X
 
     % Steps of the analysis
     % 1. FFT of the time series
+
+    %     X = cfg.X;
+    %     Xraw = cfg.Xraw;
+    TargetFrequency = cfg.TargetFrequency;
+    BinSize = cfg.BinSize;
+    Thresh = cfg.Thresh;
+    histBin = cfg.histBin;
 
     tSNR = mean(Xraw) ./ std(Xraw);
 

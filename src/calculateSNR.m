@@ -52,7 +52,7 @@ onsetDelay = 2;
 endDelay = 4;
 
 % use neighbouring 4 bins as noise frequencies
-BinSize = 4;
+cfg.BinSize = 4;
 
 RunPattern = struct();
 nVox = sum(mask(:) == 1);
@@ -150,17 +150,16 @@ for iRun = 1:nRuns
     % frequencies
     f = samplingFreq / 2 * linspace(0, 1, N / 2 + 1);
     % target frequency
-    TF = round(N * oddballFreq / samplingFreq + 1);
+    cfg.targetFreq = round(N * oddballFreq / samplingFreq + 1);
     % number of bins for phase histogram
-    histBin = 20;
+    cfg.histBin = 20;
     % threshold for choosing voxels for the phase distribution analysis
-    Thresh = 4;
+    cfg.Thresh = 4;
 
     [targetSNR, targetPhase, targetSNRsigned, tSNR] = calculateFourier( ...
                                                                        patternDetrend, ...
                                                                        patternResampled, ...
-                                                                       TF, BinSize, Thresh, ...
-                                                                       histBin);
+                                                                       cfg);
 
     allRunsRaw(:, :, iRun) = patternResampled;
     allRunsDT(:, :, iRun) = patternDetrend;
@@ -210,7 +209,7 @@ avgrawPattern = mean(allRunsRaw, 3);
 fprintf('Calculating average... \n');
 [targetSNR, targetPhase, targetSNRsigned, tSNR] = calculateFourier(avgPattern, ...
                                                                    avgrawPattern, ...
-                                                                   TF, BinSize, ...
+                                                                   targetFreq, BinSize, ...
                                                                    Thresh, histBin);
 
 % write zmap
