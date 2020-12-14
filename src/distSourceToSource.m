@@ -66,23 +66,23 @@ function distSourceToSource
         end
 
         %% move func folder content to corresponding source
-        if iTask ~=3
+        if iTask ~= 3
             % create func folder if doesn't exit
             if ~exist(funcDir, 'dir')
                 mkdir(funcDir);
             end
-            
+
             taskFiles = dir(fullfile(sourceFuncDir, filePattern));
             taskFiles([taskFiles.isdir]) = [];
-            
+
             % move .nii and .json
             for iFile = 1:numel(taskFiles)
-                
+
                 % source file
                 sourceFile = fullfile(sourceFuncDir, taskFiles(iFile).name);
                 % destination file
                 destFile = fullfile(funcDir, taskFiles(iFile).name);
-                
+
                 movefile(sourceFile, destFile);
             end
         end
