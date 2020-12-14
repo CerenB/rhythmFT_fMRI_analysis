@@ -21,7 +21,7 @@ initEnv();
 checkDependencies();
 
 % subject to run
-opt.subject = {'001'};
+opt.subject = {'002'};
 opt.taskName = 'RhythmFT';
 opt.space = 'individual';
 
@@ -210,10 +210,7 @@ avgrawPattern = mean(allRunsRaw, 3);
 
 % SNR Calculation
 fprintf('Calculating average... \n');
-[targetSNR, targetPhase, targetSNRsigned, tSNR] = calculateFourier(avgPattern, ...
-                                                                   avgrawPattern, ...
-                                                                   targetFreq, BinSize, ...
-                                                                   Thresh, histBin);
+[targetSNR, cfg] = calculateFourier(avgPattern, avgrawPattern, cfg);
 
 % write zmap
 fprintf('Saving average... \n');
@@ -232,6 +229,12 @@ FileName = fullfile(opt.derivativesDir, '..', ...
                                 opt.subject{1}, '_ses-001_task-', ...
                                 opt.taskName, '_bold.nii']);
 save_nii(new_nii, FileName);
+
+
+
+
+
+
 
 function opt = getSpecificBoldFiles(opt)
 
