@@ -4,7 +4,7 @@ function distSourceToSource
     % then .tsv _.json files un func will be carried to raw folder
 
     % define task names
-    subject = 'sub-003';
+    subject = 'sub-006';
     session = 'ses-001';
     taskNames = {'PitchFT', 'RhythmBlock', 'RhythmFT'};
 
@@ -40,7 +40,7 @@ function distSourceToSource
         % define raw folder
         rawDir = fullfile(destinationDir, '..', 'raw');
 
-        %% move nii folder content
+        %% move nii folder content to source
         % create subject folder witn subfolders if doesn't exit
         if ~exist(fullfile(destinationDir, subject), 'dir')
             for idir = 1:length(dirsToMakeNii)
@@ -90,7 +90,7 @@ function distSourceToSource
         %% use copy from source to raw
         % from source/nii only copy the .nii file with task name
         % then copy all the func folder with removeDateSuffic
-        taskFilePattern = ['*', taskNames{iTask}, '_run*.nii'];
+        taskFilePattern = ['*', taskNames{iTask}, '_run*.nii*'];
         taskNiiFiles = dir(fullfile(niiDir, taskFilePattern));
 
         % check if sub folder exit
