@@ -4,7 +4,7 @@ function distSourceToSource
     % then .tsv _.json files un func will be carried to raw folder
 
     % define task names
-    subject = 'sub-006';
+    subject = 'sub-011';
     session = 'ses-001';
     taskNames = {'PitchFT', 'RhythmBlock', 'RhythmFT'};
 
@@ -13,23 +13,50 @@ function distSourceToSource
 
     sourceDir = fullfile(fileparts(mfilename('fullpath')), ...
                          '..', '..', '..',  'source');
+                     
+    basePath = fullfile(sourceDir, subject, session);
+    
     % .nii and .json files
-    sourceNiiDir = fullfile(sourceDir, subject, session, 'nii', ...
+    sourceNiiDir = fullfile(basePath, 'nii', ...
+                            subject, session, 'func');
+    sourceNiiSes02 = fullfile(sourceDir, subject, 'ses-002', 'nii', ...
                             subject, session, 'func');
 
     % .tsv and .json files
-    sourceFuncDir = fullfile(sourceDir, subject, session, 'func');
+    sourceFuncDir = fullfile(basePath, 'func');
 
     % anat folder
-    sourceAnatDir = fullfile(sourceDir, subject, session, 'anat');
+    sourceAnatDir = fullfile(basePath, 'anat');
 
     % folder names to create
     dirsToMakeNii = {subject, session, 'nii'};
     dirsToMakeFunc = {subject, session, 'func'};
-
+    
+    %% cut&paste files to start with
+    
+    % move nii files of ses002 into ses001
+    ses002NiiFiles = dir(sourceNiiSes02);
+    ses002NiiFiles([ses002NiiFiles.isdir]) = [];
+    
+    % move .nii and .json
+    for iFile = 1:numel(ses002NiiFiles)
+        
+        % source file
+        ses002NiiFile = fullfile(sourceNiiSes02, ses002NiiFiles(iFile).name);
+        % destination file
+        destFile = fullfile(sourceNiiDir, ses002NiiFiles(iFile).name);
+        % move
+        movefile(ses002NiiFile, destFile);
+    end
+    
+    % move anat folder out of ses-001/nii/sub00x/ses001/anat to ses-001/nii/
+    groundZeroAnat = fullfile(sourceNiiDir, '..', 'anat');
+    movefile(groundZeroAnat, basePath);
+        
+        
+    %% start distributing files 
     for iTask = 1:length(taskNames)
 
-        %% define folders
         % define destination folders
         destinationDir = fullfile(fileparts(mfilename('fullpath')), ...
                                   '..', '..', '..', '..', taskNames{iTask}, 'source');
@@ -39,7 +66,7 @@ function distSourceToSource
 
         % define raw folder
         rawDir = fullfile(destinationDir, '..', 'raw');
-
+       
         %% move nii folder content to source
         % create subject folder witn subfolders if doesn't exit
         if ~exist(fullfile(destinationDir, subject), 'dir')
