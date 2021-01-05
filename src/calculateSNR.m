@@ -22,7 +22,7 @@ initEnv();
 checkDependencies();
 
 % subject to run
-opt.subject = {'003'};
+opt.subject = {'007'};
 opt.session = {'001'};
 opt.taskName = 'RhythmFT';
 opt.space = 'individual';
