@@ -33,7 +33,7 @@ bidsResliceTpmToFunc(opt);
 functionalQA(opt);
 
 % smoothing
-FWHM = 3;
+FWHM = 6;
 bidsSmoothing(FWHM, opt);
 %
 % % The following crash on Travis CI
