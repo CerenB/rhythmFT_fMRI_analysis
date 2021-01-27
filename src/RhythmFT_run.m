@@ -18,7 +18,7 @@ checkDependencies();
 
 %% Run batches
 % reportBIDS(opt);
-bidsCopyRawFolder(opt, 1);
+% bidsCopyRawFolder(opt, 1);
 %
 % % In case you just want to run segmentation and skull stripping
 % % Skull stripping is also included in 'bidsSpatialPrepro'
@@ -36,10 +36,7 @@ functionalQA(opt);
 % smoothing
 FWHM = 6;
 bidsSmoothing(FWHM, opt);
-%
-% % The following crash on Travis CI
-% bidsFFX('specifyAndEstimate', opt, FWHM);
-% bidsFFX('contrasts', opt, FWHM);
 
-% bidsResults(opt, FWHM);
-% isMVPA = false;
+FWHM = 3;
+bidsSmoothing(FWHM, opt);
+
