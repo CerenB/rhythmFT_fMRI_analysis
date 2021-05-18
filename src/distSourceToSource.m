@@ -4,9 +4,10 @@ function distSourceToSource
   % then .tsv _.json files un func will be carried to raw folder
 
   % define task names
-  subject = 'sub-011';
+  subject = 'sub-001';
   session = 'ses-001';
-  taskNames = {'PitchFT', 'RhythmBlock', 'RhythmFT'};
+  taskNames = {'RhythmBlock'};
+  %taskNames = {'PitchFT', 'RhythmBlock', 'RhythmFT'};
 
   % path name
   currDir = pwd;
