@@ -46,7 +46,7 @@ opt = getOptionRhythmFT();
 FWHM = 6;
 bidsSmoothing(FWHM, opt);
 
-FWHM = 3;
+FWHM = 2;
 bidsSmoothing(FWHM, opt);
 
 
@@ -57,7 +57,7 @@ opt.maskType = 'whole-brain';
 % want to save each run FFT results
 opt.saveEachRun = 0;
 
-for iSmooth = [2 3 6] % 0 2 3 or 6mm smoothing
+for iSmooth = [2] % 0 2 3 or 6mm smoothing
     
     opt.FWHM = iSmooth; 
     
