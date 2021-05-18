@@ -21,7 +21,7 @@ function opt = getOptionRhythmFT()
 
   % we stay in native space (that of the T1)
   % - in "native" space: don't do normalization
-  opt.space = 'individual'; % 'individual', 'MNI'
+  opt.space = 'MNI'; % 'individual', 'MNI'
 
   % The directory where the data are located
   opt.dataDir = fullfile(fileparts(mfilename('fullpath')), ...
@@ -31,6 +31,25 @@ function opt = getOptionRhythmFT()
   % task to analyze
   opt.taskName = 'RhythmFT';
 
+  
+   [~, hostname] = system('hostname');
+  if strcmp(deblank(hostname), 'tux')
+    opt.dataDir = fullfile('/datadisk/data/RhythmCateg-fMRI/RhythmBlock'); 
+    opt.derivativesDir = fullfile( ...
+                                  '/datadisk/data/RhythmCateg-fMRI/RhythmFT', ...
+                                  'cpp_spm');
+  elseif strcmp(deblank(hostname), 'mac-114-168.local')
+    % The directory where the data are located
+    opt.dataDir = fullfile(fileparts(mfilename('fullpath')), ...
+                           '..', '..', '..', 'data', 'raw');
+    opt.derivativesDir = fullfile(opt.dataDir, '..', ...
+                                  'derivatives', 'cpp_spm');
+                              
+    opt.roiDir = fullfile(fileparts(mfilename('fullpath')),  ...
+                           '..', '..', '..','..', 'RhythmCateg_ROI');
+  end
+  
+  
   % Suffix output directory for the saved jobs
   opt.jobsDir = fullfile( ...
                          opt.dataDir, '..', 'derivatives', ...
