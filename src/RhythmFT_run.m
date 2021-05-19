@@ -49,7 +49,7 @@ bidsSmoothing(FWHM, opt);
 FWHM = 2;
 bidsSmoothing(FWHM, opt);
 
-
+%%
 opt.anatMask = 0;
 opt.maskType = 'whole-brain'; 
 [opt.funcMask, opt.maskType] = getMaskFile(opt);
@@ -57,17 +57,19 @@ opt.maskType = 'whole-brain';
 % want to save each run FFT results
 opt.saveEachRun = 0;
 
-for iSmooth = [2] % 0 2 3 or 6mm smoothing
+opt.nStepsPerPeriod = 4;
+for iSmooth = [0 3 6] % 0 2 3 or 6mm smoothing
     
     opt.FWHM = iSmooth; 
-    
-    opt.nStepsPerPeriod = 4;
+
     calculateSNR(opt);
 end
 
+%%
 % group analysis - for now only in MNI
 % individual space would require fsaverage
-opt.FWHM = 0;
+opt.nStepsPerPeriod = 4;
+opt.FWHM = 6;
 opt = groupAverageSNR(opt);
 
 
