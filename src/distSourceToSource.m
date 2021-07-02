@@ -3,17 +3,23 @@ function distSourceToSource
   % relevant raw folders
   % then .tsv _.json files un func will be carried to raw folder
 
+  % add bids repo
+  bidsPath = '/Users/battal/Documents/GitHub/CPPLab/CPP_BIDS';
+  addpath(genpath(fullfile(bidsPath,'src')));
+  addpath(genpath(fullfile(bidsPath,'lib')));
+  
+  % run getOptions to get cp_spm repo
+  
+  
   % define task names
-  subject = 'sub-001';
+  subject = 'sub-013';
   session = 'ses-001';
-  taskNames = {'RhythmBlock'};
-  %taskNames = {'PitchFT', 'RhythmBlock', 'RhythmFT'};
+%   taskNames = {'RhythmBlock'};
+  taskNames = {'Nonmetric', 'RhythmBlock', 'RhythmFT'}; %'PitchFT'
 
-  % path name
-  currDir = pwd;
 
   sourceDir = fullfile(fileparts(mfilename('fullpath')), ...
-                       '..', '..', '..',  'source');
+                       '..', '..', '..', 'source');
 
   basePath = fullfile(sourceDir, subject, session);
 
@@ -59,7 +65,8 @@ function distSourceToSource
 
     % define destination folders
     destinationDir = fullfile(fileparts(mfilename('fullpath')), ...
-                              '..', '..', '..', '..', taskNames{iTask}, 'source');
+                              '..', '..', '..', '..', taskNames{iTask}, ...
+                              'source');
 
     niiDir = fullfile(destinationDir, subject, session, 'nii');
     funcDir = fullfile(destinationDir, subject, session, 'func');
@@ -152,9 +159,9 @@ function distSourceToSource
     copyfile(sourceAnatDir, rawAnatDir);
 
     % last but not least, delete _stim files from raw folder
-    cd(rawFuncDir);
-    delete '*_stim*';
-    cd(currDir);
+%     cd(rawFuncDir);
+%     delete '*_stim*';
+%     cd(currDir);
   end
 
 end
