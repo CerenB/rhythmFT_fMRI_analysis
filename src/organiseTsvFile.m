@@ -1,96 +1,72 @@
 function organiseTsvFile
-% it is a mini function to reorganise the _events.tsv files 
+% it is a mini function to reorganise the _events.tsv files
 % in order to make them bids-compliant.
 
 % first, it omits the empty column
-% then looks at empty cells and inserts 
-
-  deleteSuffix = 0;
+% then looks at empty cells and inserts
 
 
- % add bids repo
-  bidsPath = '/Users/battal/Documents/GitHub/CPPLab/CPP_BIDS';
-  addpath(genpath(fullfile(bidsPath,'src')));
-  addpath(genpath(fullfile(bidsPath,'lib')));
-  
-  % raw data path
-  rawDir = '/Users/battal/Cerens_files/fMRI/Processed/RhythmCateg/RhythmFT/raw';
+% option1 = deletes the unnecessary rows, option2 = inserts NaNs
+cleaningOption = 1;
 
-%   rawDir = '/Users/battal/Cerens_files/fMRI/Processed/MT_TMS/raw';
-  
-  % define task names
-  subject = 'sub-012';
-  session = 'ses-001';
-  
-  
-  % define the task names
-  taskNames = {'RhythmFT'}; %'PitchFT' 'Nonmetric', 'RhythmBlock', 
-%   taskNames = {'visualLocalizer', 'auditoryLocalizer'};
-  
-  % tsv file location
-  rawFuncDir = fullfile(rawDir, subject, session, 'func');
-  
-  
-  % remove the suffix
-  if deleteSuffix
-    removeAllDateSuffix(rawDir, subject, session);
-  end
-  
-  % Create output file name
-  outputTag = '_touched.tsv';
+% add bids repo
+bidsPath = '/Users/battal/Documents/GitHub/CPPLab/CPP_BIDS';
+addpath(genpath(fullfile(bidsPath,'src')));
+addpath(genpath(fullfile(bidsPath,'lib')));
+
+% define task names
+subject = 'sub-012';
+session = 'ses-001';
+
+mainDir = '/Users/battal/Cerens_files/fMRI/Processed/RhythmCateg/';
+
+% define the task names
+taskNames = {'RhythmFT','RhythmBlock','PitchFT'}; % 'Nonmetric',
+
+for iTask = 1:length(taskNames)
     
-  
-  for iTask = 1:length(taskNames)
-      
-      % create a pattern to look for in the folder
-      FilePattern = ['*', taskNames{iTask}, '*_events.tsv'];
-      % find all the .tsv files
-      tsvFiles = dir(fullfile(rawFuncDir, FilePattern));
-      
-      % read, modify and save tsv  in a for loop
-      for iFile = 1:length(tsvFiles)
-          
-          tsvFileName = tsvFiles(iFile).name;
-          tsvFileFolder = tsvFiles(iFile).folder;
-          
-          % create output file name
-          outputFileName = strrep(tsvFileName, '.tsv', outputTag);
-
-          % read the tsv file
-          output = bids.util.tsvread(fullfile(tsvFileFolder,tsvFileName));
-          
-          % check if there's empty column
-        [data, header, raw]  = tsvread(fullfile(tsvFileFolder,tsvFileName));
-          % check is there's empty cell
-      
-          % if yes, insert n/a
-      
-          % convert to tsv structure
-          output = convertStruct(output);
-          
-          % save as tsv
-          bids.util.tsvwrite(fullfile(tsvFileFolder,outputFileName), output);
-
-      end
-      
-  end
-
-end
-
-
-function structure = convertStruct(structure)
-    % changes the structure
-    % from struct.field(i,1) to struct(i,1).field(1)
-
-    fieldsList = fieldnames(structure);
-    tmp = struct();
-
-    for iField = 1:numel(fieldsList)
-        for i = 1:numel(structure.(fieldsList{iField}))
-            tmp(i, 1).(fieldsList{iField}) =  structure.(fieldsList{iField})(i, 1);
-        end
+    % raw and source data path
+    rawDir = fullfile(mainDir,taskNames{iTask}, 'raw');
+    sourceDir =  fullfile(mainDir,taskNames{iTask}, 'source');
+    
+    % tsv file location
+    rawFuncDir = fullfile(rawDir, subject, session, 'func');
+    sourceFuncDir = fullfile(sourceDir, subject, session, 'func');
+    
+    
+    % create a pattern to look for in the folder
+    FilePattern = ['*', taskNames{iTask}, '*_events.tsv'];
+    % find all the .tsv files
+    tsvFiles = dir(fullfile(rawFuncDir, FilePattern));
+    
+    % read, modify and save tsv  in a for loop
+    for iFile = 1:length(tsvFiles)
+        
+        tsvFileName = tsvFiles(iFile).name;
+        tsvFileFolder = tsvFiles(iFile).folder;
+        
+        
+        % check if there's empty column
+        % check is there's empty cell
+        
+        % read tsv line-by-line, check empty column, either insert n/a
+        % or delete unnecessary rows
+        tsv = fullfile(tsvFileFolder,tsvFileName);
+        [output, outputTag] = readAndCleanLogFile(tsv, cleaningOption);
+        
+        % create output file name with tag for source
+        outputFileName = strrep(tsvFileName, '.tsv', outputTag);
+        
+        % save as tsv in source with tag
+        bids.util.tsvwrite(fullfile(sourceFuncDir,outputFileName), output);
+        
+        % save as tsv in raw
+        bids.util.tsvwrite(fullfile(tsvFileFolder,tsvFileName), output);
+        
+        
     end
-
-    structure = tmp;
+    
+end
 
 end
+
