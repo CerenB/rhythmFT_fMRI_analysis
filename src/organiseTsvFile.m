@@ -15,7 +15,7 @@ addpath(genpath(fullfile(bidsPath,'src')));
 addpath(genpath(fullfile(bidsPath,'lib')));
 
 % define task names
-subject = 'sub-012';
+subject = 'sub-013';
 session = 'ses-001';
 
 mainDir = '/Users/battal/Cerens_files/fMRI/Processed/RhythmCateg/';
