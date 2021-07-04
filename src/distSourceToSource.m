@@ -158,7 +158,7 @@ function distSourceToSource
     rawAnatDir = fullfile(rawDir, subject, session, 'anat');
     copyfile(sourceAnatDir, rawAnatDir);
 
-    % last but not least, delete _stim files from raw folder
+    % last but not least, delete _stim files from raw folder - till sub012
 %     cd(rawFuncDir);
 %     delete '*_stim*';
 %     cd(currDir);
