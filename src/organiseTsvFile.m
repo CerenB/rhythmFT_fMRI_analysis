@@ -15,13 +15,13 @@ addpath(genpath(fullfile(bidsPath,'src')));
 addpath(genpath(fullfile(bidsPath,'lib')));
 
 % define task names
-subject = 'sub-013';
+subject = 'sub-023';
 session = 'ses-001';
 
 mainDir = '/Users/battal/Cerens_files/fMRI/Processed/RhythmCateg/';
 
 % define the task names
-taskNames = {'RhythmFT','RhythmBlock','PitchFT'}; % 'Nonmetric',
+taskNames = {'RhythmFT','RhythmBlock','Nonmetric'}; % 'PitchFT'
 
 for iTask = 1:length(taskNames)
     

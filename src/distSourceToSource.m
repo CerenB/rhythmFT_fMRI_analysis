@@ -12,9 +12,8 @@ function distSourceToSource
   
   
   % define task names
-  subject = 'sub-013';
+  subject = 'sub-023';
   session = 'ses-001';
-%   taskNames = {'RhythmBlock'};
   taskNames = {'Nonmetric', 'RhythmBlock', 'RhythmFT'}; %'PitchFT'
 
 
