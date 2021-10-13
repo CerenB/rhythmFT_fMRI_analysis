@@ -12,11 +12,13 @@ function opt = getOptionRhythmFT()
   % group of subjects to analyze
   opt.groups = {''};
   % suject to run in each group
-  opt.subjects = { '013', '014', '015', '016' ,'017', ...
-                   '018', '019', '020', '021', '023'}; 
+  opt.subjects = {'001', '002', '003', '004', '005', ...
+                  '006', '007', '008', '009', '010', '011', ...
+                  '012',  '013', '014', '015', '016', ...
+                  '017', '018', '019', '020', '021', '023'};
 
-            % '001', '002', '003', '004', '005', ...
-             %   '006','007','008','009', '010', '011'
+  % '001', '002', '003', '004', '005', ...
+  %               '006','007','008','009', '010', '011'
   % Uncomment the lines below to run preprocessing
   % - don't use realign and unwarp
   opt.realign.useUnwarp = true;
@@ -33,10 +35,9 @@ function opt = getOptionRhythmFT()
   % task to analyze
   opt.taskName = 'RhythmFT';
 
-  
-   [~, hostname] = system('hostname');
+  [~, hostname] = system('hostname');
   if strcmp(deblank(hostname), 'tux')
-    opt.dataDir = fullfile('/datadisk/data/RhythmCateg-fMRI/RhythmBlock'); 
+    opt.dataDir = fullfile('/datadisk/data/RhythmCateg-fMRI/RhythmBlock');
     opt.derivativesDir = fullfile( ...
                                   '/datadisk/data/RhythmCateg-fMRI/RhythmFT', ...
                                   'cpp_spm');
@@ -46,17 +47,16 @@ function opt = getOptionRhythmFT()
                            '..', '..', '..', 'raw');
     opt.derivativesDir = fullfile(opt.dataDir, '..', ...
                                   'derivatives', 'cpp_spm');
-                              
+
     opt.roiDir = fullfile(fileparts(mfilename('fullpath')),  ...
-                           '..', '..', '..','..', 'RhythmCateg_ROI');
+                          '..', '..', '..', '..', 'RhythmCateg_ROI');
   end
-  
-  
+
   % Suffix output directory for the saved jobs
   opt.jobsDir = fullfile( ...
                          opt.dataDir, '..', 'derivatives', ...
                          'cpp_spm', 'JOBS', opt.taskName);
-                     
+
   % to add the hrf temporal derivative = [1 0]
   % to add the hrf temporal and dispersion derivative = [1 1]
   % opt.model.hrfDerivatives = [0 0];
@@ -78,10 +78,10 @@ function opt = getOptionRhythmFT()
   % Options for normalize
   % Voxel dimensions for resampling at normalization of functional data or leave empty [ ].
   opt.funcVoxelDims = [2.6 2.6 2.6];
-  
+
   opt.parallelize.do = false;
   opt.parallelize.nbWorkers = 1;
-  opt.parallelize.killOnExit = true;  
+  opt.parallelize.killOnExit = true;
 
   %% DO NOT TOUCH
   opt = checkOptions(opt);

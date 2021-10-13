@@ -5,17 +5,15 @@ function distSourceToSource
 
   % add bids repo
   bidsPath = '/Users/battal/Documents/GitHub/CPPLab/CPP_BIDS';
-  addpath(genpath(fullfile(bidsPath,'src')));
-  addpath(genpath(fullfile(bidsPath,'lib')));
-  
+  addpath(genpath(fullfile(bidsPath, 'src')));
+  addpath(genpath(fullfile(bidsPath, 'lib')));
+
   % run getOptions to get cp_spm repo
-  
-  
+
   % define task names
   subject = 'sub-023';
   session = 'ses-001';
-  taskNames = {'Nonmetric', 'RhythmBlock', 'RhythmFT'}; %'PitchFT'
-
+  taskNames = {'Nonmetric', 'RhythmBlock', 'RhythmFT'}; % 'PitchFT'
 
   sourceDir = fullfile(fileparts(mfilename('fullpath')), ...
                        '..', '..', '..', 'source');
@@ -158,9 +156,9 @@ function distSourceToSource
     copyfile(sourceAnatDir, rawAnatDir);
 
     % last but not least, delete _stim files from raw folder - till sub012
-%     cd(rawFuncDir);
-%     delete '*_stim*';
-%     cd(currDir);
+    %     cd(rawFuncDir);
+    %     delete '*_stim*';
+    %     cd(currDir);
   end
 
 end

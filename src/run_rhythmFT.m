@@ -36,7 +36,7 @@ bidsCopyRawFolder(opt, 1);
 bidsSTC(opt);
 % %
 bidsSpatialPrepro(opt);
-% 
+%
 % % Quality control
 % anatomicalQA(opt);
 % bidsResliceTpmToFunc(opt);
@@ -51,25 +51,23 @@ bidsSmoothing(FWHM, opt);
 
 %%
 opt.anatMask = 0;
-opt.maskType = 'whole-brain'; 
+opt.maskType = 'whole-brain';
 [opt.funcMask, opt.maskType] = getMaskFile(opt);
 
 % want to save each run FFT results
 opt.saveEachRun = 0;
-
 opt.nStepsPerPeriod = 4;
-for iSmooth = [0 3 6] % 0 2 3 or 6mm smoothing
-    
-    opt.FWHM = iSmooth; 
 
-    calculateSNR(opt);
+for iSmooth = 2 % 0 2 3 or 6mm smoothing
+
+  opt.FWHM = iSmooth;
+
+  calculateSNR(opt);
 end
 
 %%
 % group analysis - for now only in MNI
 % individual space would require fsaverage
 opt.nStepsPerPeriod = 4;
-opt.FWHM = 6;
+opt.FWHM = 2; % 0 2 6
 opt = groupAverageSNR(opt);
-
-
