@@ -71,3 +71,10 @@ end
 opt.nStepsPerPeriod = 4;
 opt.FWHM = 2; % 0 2 6
 opt = groupAverageSNR(opt);
+
+%% visualisation prep
+opt.nStepsPerPeriod = 4;
+opt.FWHM = 6;
+pvalue = 0.005; % 1e-6; 1e-3
+opt.save.zmap = true;
+groupLevelzMapThreshold(opt, pvalue)
